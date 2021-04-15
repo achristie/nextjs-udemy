@@ -1,10 +1,10 @@
 import EventItem from "./event-item";
+import classes from "./event-list.module.css";
 
 function EventList({ items }) {
   return (
-    <ul>
+    <ul className={classes.list}>
       {items.map((d) => {
-        console.log(d);
         return (
           <EventItem
             id={d.id}

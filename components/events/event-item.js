@@ -5,6 +5,8 @@
  * @description : event-item
  */
 import Link from "next/link";
+import classes from "./event-item.module.css";
+import Button from "../ui/Button";
 
 export default function EventItem({ title, image, date, location, id }) {
   const readableDate = new Date(date).toLocaleDateString("en-US", {
@@ -13,22 +15,21 @@ export default function EventItem({ title, image, date, location, id }) {
     year: "numeric",
   });
   const exploreLink = `/events/${id}`;
-  console.log(title);
   return (
-    <li key={id}>
+    <li key={id} className={classes.item}>
       <img src={"/" + image} alt="" />
-      <div>
-        <div>
+      <div className={classes.content}>
+        <div classname={classes.summary}>
           <h2>{title}</h2>
-          <div>
+          <div className={classes.date}>
             <time>{readableDate}</time>
           </div>
-          <div>
+          <div classNamed={classes.address}>
             <address>{location}</address>
           </div>
         </div>
-        <div>
-          <Link href={exploreLink}>Explore Event</Link>
+        <div className={classes.actions}>
+          <Button link={exploreLink}>Explore Event</Button>
         </div>
       </div>
     </li>
