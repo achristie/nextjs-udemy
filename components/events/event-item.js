@@ -16,15 +16,15 @@ export default function EventItem({ title, image, date, location, id }) {
   });
   const exploreLink = `/events/${id}`;
   return (
-    <li key={id} className={classes.item}>
+    <li className={classes.item}>
       <img src={"/" + image} alt="" />
       <div className={classes.content}>
-        <div classname={classes.summary}>
+        <div className={classes.summary}>
           <h2>{title}</h2>
           <div className={classes.date}>
             <time>{readableDate}</time>
           </div>
-          <div classNamed={classes.address}>
+          <div className={classes.address}>
             <address>{location}</address>
           </div>
         </div>

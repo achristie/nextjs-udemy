@@ -1,15 +1,47 @@
-import { getFilteredEvents } from "../../dummy-data";
+import { getFilteredEvents } from "../../helpers/api";
 import { useRouter } from "next/router";
 import EventList from "../../components/events/event-list";
 
-export default function FilteredEvents() {
-  const router = useRouter();
+export default function FilteredEvents({ events, year, month }) {
+  // const router = useRouter();
 
-  const filterData = router.query.slug;
+  // const filterData = router.query.slug;
 
-  if (!filterData) {
-    return <p className="center">Loading...</p>;
+  // if (!filterData) {
+  //   return <p className="center">Loading...</p>;
+  // }
+
+  // const year = +filterData[0];
+  // const month = +filterData[1];
+
+  // if (
+  //   isNaN(year) ||
+  //   isNaN(month) ||
+  //   year < 2021 ||
+  //   year > 2030 ||
+  //   month < 1 ||
+  //   month > 12
+  // ) {
+  //   return <p className="center">Invalid filter. please adjust</p>;
+  // }
+
+  const filteredEvents = events;
+
+  if (!filteredEvents || filteredEvents.length === 0) {
+    return <p className="center">No Events Found!</p>;
   }
+
+  return (
+    <div>
+      <EventList items={filteredEvents} />
+    </div>
+  );
+}
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+
+  const filterData = params.slug;
 
   const year = +filterData[0];
   const month = +filterData[1];
@@ -22,19 +54,23 @@ export default function FilteredEvents() {
     month < 1 ||
     month > 12
   ) {
-    return <p className="center">Invalid filter. please adjust</p>;
+    return {
+      notFound: true,
+    };
   }
 
-  const filteredEvents = getFilteredEvents({ year, month });
+  const filteredEvents = await getFilteredEvents({ year, month });
 
-  if (!filteredEvents || filteredEvents.length === 0) {
-    return <p className="center">No Events Found!</p>;
-  }
+  return {
+    props: {
+      events: filteredEvents,
+      year: year,
+      month: month,
+    },
+  };
 
-  return (
-    <div>
-      <EventList items={filteredEvents} />
-    </div>
-  );
+  // return {
+  //   props: { events: filteredEvents, year: year, month: month },
+  // };
 }
 

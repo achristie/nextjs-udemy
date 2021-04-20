@@ -10,27 +10,12 @@ import path from "path";
 export default function Index(props) {
   return (
     <ul>
-      {props.people.map((p) => (
+      {props.events.map((p) => (
         <li key={p.name}>
           {p.name} | {p.age}
         </li>
       ))}
     </ul>
   );
-}
-
-export async function getStaticProps() {
-  const file = path.join(process.cwd(), "dummy-backend2.json");
-  const jsonData = await fs.readFile(file);
-  const data = JSON.parse(jsonData);
-
-  console.log("generating...");
-
-  return {
-    props: {
-      people: data.people,
-    },
-    revalidate: 10,
-  };
 }
 
